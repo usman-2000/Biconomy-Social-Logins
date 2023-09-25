@@ -15,23 +15,22 @@ export default function Wallet() {
   const [loading, setLoading] = useState(false);
   const [, setProvider] = useState<ethers.providers.Web3Provider>();
   const [smartAccount, setSmartAccount] = useState<BiconomySmartAccount>();
-  //   const [isLoading, setIsLoading] = useState(false);
-  //   const [amount, setAmount] = useState(0);
-  //   const [recipient, setRecipient] = useState("");
 
   // login() function
   async function login() {
+    console.log("Interval", interval);
+    console.log("sdk", sdkRef);
     if (!sdkRef.current) {
       const socialLoginSDK = new SocialLogin();
       const signature1 = await socialLoginSDK.whitelistUrl(
-        "https://biconomy-social-logins.vercel.app/"
+        "https://biconomy-social-logins.vercel.app"
       );
       await socialLoginSDK.init({
         chainId: ethers.utils.hexValue(ChainId.POLYGON_MUMBAI).toString(),
-        whitelistUrls: {
-          "https://biconomy-social-logins.vercel.app/": signature1,
-        },
         network: "testnet",
+        whitelistUrls: {
+          "https://biconomy-social-logins.vercel.app": signature1,
+        },
       });
       sdkRef.current = socialLoginSDK;
     }
