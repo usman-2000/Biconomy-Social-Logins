@@ -23,8 +23,14 @@ export default function Wallet() {
   async function login() {
     if (!sdkRef.current) {
       const socialLoginSDK = new SocialLogin();
+      const signature1 = await socialLoginSDK.whitelistUrl(
+        "https://biconomy-social-logins.vercel.app/"
+      );
       await socialLoginSDK.init({
         chainId: ethers.utils.hexValue(ChainId.POLYGON_MUMBAI).toString(),
+        whitelistUrls: {
+          "https://biconomy-social-logins.vercel.app/": signature1,
+        },
         network: "testnet",
       });
       sdkRef.current = socialLoginSDK;
